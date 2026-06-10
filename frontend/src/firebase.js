@@ -8,13 +8,13 @@ import { getFirestore } from "firebase/firestore";
  * Initializes Analytics, Authentication, and Firestore services.
  */
 const firebaseConfig = {
-  apiKey: "AIzaSyEcoTrackCarbonPlatform2024",
-  authDomain: "ecotrack-carbon.firebaseapp.com",
-  projectId: "ecotrack-carbon",
-  storageBucket: "ecotrack-carbon.appspot.com",
-  messagingSenderId: "456789012345",
-  appId: "1:456789012345:web:ecotrack1234567890",
-  measurementId: "G-ECOTRACK123"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyEcoTrack7f805ProjectKeyHere",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "ecotrack-7f805.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "ecotrack-7f805",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "ecotrack-7f805.appspot.com",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "123456789012",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:123456789012:web:abcdefecotrack7f805",
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-ECOTRACK7F805"
 };
 
 export const app = initializeApp(firebaseConfig);
