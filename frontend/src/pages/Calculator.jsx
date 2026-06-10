@@ -13,6 +13,58 @@ import { formatCO2 } from '../utils/helpers';
 
 const iconMap = { Car, Zap, Utensils, ShoppingBag };
 
+const PRESETS = {
+  transport_car_km: [
+    { label: 'Low (50 km)', value: 50 },
+    { label: 'Avg (150 km)', value: 150 },
+    { label: 'High (400 km)', value: 400 }
+  ],
+  transport_bus_km: [
+    { label: 'Low (10 km)', value: 10 },
+    { label: 'Avg (50 km)', value: 50 }
+  ],
+  transport_train_km: [
+    { label: 'Low (20 km)', value: 20 },
+    { label: 'Avg (200 km)', value: 200 }
+  ],
+  transport_flight_km: [
+    { label: 'Short (500 km)', value: 500 },
+    { label: 'Long (5000 km)', value: 5000 }
+  ],
+  energy_electricity_kwh: [
+    { label: 'Flat (150 kWh)', value: 150 },
+    { label: 'House (450 kWh)', value: 450 }
+  ],
+  energy_gas_kwh: [
+    { label: 'Flat (80 kWh)', value: 80 },
+    { label: 'House (300 kWh)', value: 300 }
+  ],
+  food_beef_kg: [
+    { label: 'Low (0.5 kg)', value: 0.5 },
+    { label: 'Avg (2 kg)', value: 2 }
+  ],
+  food_chicken_kg: [
+    { label: 'Low (0.5 kg)', value: 0.5 },
+    { label: 'Avg (2 kg)', value: 2 }
+  ],
+  food_vegetables_kg: [
+    { label: 'Low (1 kg)', value: 1 },
+    { label: 'Avg (4 kg)', value: 4 }
+  ],
+  food_dairy_kg: [
+    { label: 'Low (0.5 kg)', value: 0.5 },
+    { label: 'Avg (2 kg)', value: 2 }
+  ],
+  shopping_clothing: [
+    { label: 'Rare (1 item)', value: 1 },
+    { label: 'Avg (4 items)', value: 4 }
+  ],
+  shopping_electronics: [
+    { label: 'Rare (1 item)', value: 1 },
+    { label: 'Avg (3 items)', value: 3 }
+  ]
+};
+
 const CalculatorPage = React.memo(() => {
   const [step, setStep] = useState(0);
   const [showResults, setShowResults] = useState(false);
@@ -115,8 +167,21 @@ const CalculatorPage = React.memo(() => {
                           className="w-full pl-5 pr-16 py-4 rounded-2xl bg-transparent text-slate-900 font-bold text-lg focus:outline-none placeholder:text-slate-300"
                           aria-describedby={`${field.key}-factor`}
                         />
-                        <span className="absolute right-5 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">{field.unit}</span>
                       </div>
+                      {PRESETS[field.key] && (
+                        <div className="flex flex-wrap gap-1.5 mt-3 mb-1" role="group" aria-label={`Quick values for ${field.key}`}>
+                          {PRESETS[field.key].map((preset) => (
+                            <button
+                              key={preset.label}
+                              type="button"
+                              onClick={() => updateValue(field.key, preset.value)}
+                              className="px-3.5 py-1 text-xs font-black rounded-full bg-emerald-500/10 hover:bg-emerald-600 hover:text-white text-emerald-800 border border-emerald-500/20 transition-all cursor-pointer focus-ring hover:scale-[1.03]"
+                            >
+                              {preset.label}
+                            </button>
+                          ))}
+                        </div>
+                      )}
                       <p id={`${field.key}-factor`} className="text-xs text-slate-400 mt-2 ml-1">
                         Emission factor: <span className="font-semibold text-slate-500">{field.factor} kg CO₂</span> per {field.unit}
                       </p>

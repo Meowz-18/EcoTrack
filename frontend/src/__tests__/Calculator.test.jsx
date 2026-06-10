@@ -3,7 +3,7 @@
  * Tests rendering, interaction, step navigation, and accessibility.
  */
 
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
@@ -68,7 +68,6 @@ describe('Calculator Page', () => {
   });
 
   it('shows the See Results label on the last step', async () => {
-    const user = userEvent.setup();
     renderWithRouter(<CalculatorPage />);
     
     // On step 0, the button should say "Next" with label "Next category"
@@ -92,5 +91,17 @@ describe('Calculator Page', () => {
     await user.clear(input);
     await user.type(input, '150');
     expect(input).toHaveValue(150);
+  });
+
+  it('applies preset value to input on click', async () => {
+    const user = userEvent.setup();
+    renderWithRouter(<CalculatorPage />);
+    
+    const presetBtn = screen.getByRole('button', { name: 'Low (50 km)' });
+    expect(presetBtn).toBeInTheDocument();
+    
+    await user.click(presetBtn);
+    const input = screen.getByLabelText(/Car \(km\/week\)/i);
+    expect(input).toHaveValue(50);
   });
 });

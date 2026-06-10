@@ -28,7 +28,11 @@ const Challenges = React.memo(() => {
   const toggleComplete = useCallback((id) => {
     setCompleted((prev) => {
       const next = prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id];
-      try { localStorage.setItem('ecotrack_challenges', JSON.stringify(next)); } catch {}
+      try { 
+        localStorage.setItem('ecotrack_challenges', JSON.stringify(next)); 
+      } catch (e) {
+        console.warn('Could not save challenge completion state:', e);
+      }
       return next;
     });
   }, []);

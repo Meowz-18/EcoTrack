@@ -48,9 +48,9 @@ const Landing = React.memo(() => {
                 <span>POWERED BY GOOGLE GEMINI AI</span>
               </div>
               
-              <h2 id="hero-heading" className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.05] mb-6">
+              <h2 id="hero-heading" className="text-5xl md:text-6xl lg:text-7.5xl font-extrabold tracking-tight text-slate-900 leading-[1.02] mb-6 font-display">
                 Track Your <br />
-                <span className="text-gradient">Carbon</span>{' '}
+                <span className="font-serif italic font-normal text-gradient pr-2">Carbon</span>
                 <span className="text-gradient-accent">Footprint</span>
               </h2>
               

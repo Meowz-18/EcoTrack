@@ -8,7 +8,6 @@ import { motion } from 'framer-motion';
 import { MessageSquare, Send, Leaf, Bot, User, Sparkles } from 'lucide-react';
 import { useChat } from '../hooks/useChat';
 import { QUICK_QUESTIONS, MAX_QUERY_LENGTH } from '../constants';
-import { sanitizeInput } from '../utils/helpers';
 
 const Assistant = React.memo(() => {
   const { messages, inputValue, setInputValue, isTyping, messagesEndRef, handleSend } = useChat();

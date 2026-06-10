@@ -10,8 +10,6 @@ const Challenges = lazy(() => import('./pages/Challenges'));
 const Timeline = lazy(() => import('./pages/Timeline'));
 const Assistant = lazy(() => import('./pages/Assistant'));
 
-const iconMap = { Home, BarChart3, Calculator, Trophy, Calendar, MessageSquare };
-
 const MainLayout = () => {
   const navItems = [
     { path: '/', icon: Home, label: 'Home' },
@@ -39,8 +37,9 @@ const MainLayout = () => {
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-primary to-brand-leaf flex items-center justify-center shadow-lg shadow-brand-primary/20 hover:scale-105 transition-transform duration-500">
             <Leaf size={24} className="text-white" aria-hidden="true" />
           </div>
-          <h1 className="text-2xl font-black tracking-tight text-slate-900 hidden sm:block">
-            <span className="text-gradient">Eco</span>Track
+          <h1 className="text-2xl font-black tracking-tight text-slate-900 hidden sm:flex items-baseline gap-0.5">
+            <span className="font-serif italic font-normal text-emerald-800 text-3xl leading-none">Eco</span>
+            <span className="font-sans font-black text-slate-950 text-2xl tracking-tight leading-none">Track</span>
           </h1>
         </div>
 

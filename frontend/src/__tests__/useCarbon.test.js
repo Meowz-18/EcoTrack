@@ -3,7 +3,7 @@
  * Tests carbon data state management, calculations, and localStorage.
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useCarbon } from '../hooks/useCarbon';
 

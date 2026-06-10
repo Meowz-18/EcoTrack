@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { TrendingDown, TrendingUp, Leaf, Car, Zap, Utensils, ShoppingBag, Target, Award } from 'lucide-react';
 import { useCarbon } from '../hooks/useCarbon';
 import { formatCO2, getCarbonRating } from '../utils/helpers';
@@ -179,6 +179,24 @@ const Dashboard = React.memo(() => {
               </BarChart>
             </ResponsiveContainer>
           </motion.div>
+
+          {/* Trend Chart */}
+          {history.length > 0 && (
+            <motion.div className="premium-card p-8 md:p-10 col-span-1 lg:col-span-2" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.38 }}>
+              <h3 className="text-xl font-black text-slate-800 tracking-tight mb-6">Emissions Trend</h3>
+              <div className="h-[280px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={historyData} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                    <XAxis dataKey="name" tick={{ fontSize: 11, fontWeight: 500 }} />
+                    <YAxis tick={{ fontSize: 11, fontWeight: 500 }} />
+                    <Tooltip formatter={(value) => `${value} kg CO₂`} />
+                    <Line type="monotone" dataKey="total" stroke="#065f46" strokeWidth={3} activeDot={{ r: 8 }} dot={{ stroke: '#065f46', strokeWidth: 2, r: 4, fill: '#fff' }} name="Total Emissions" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </motion.div>
+          )}
         </div>
 
         {/* Category Detail Cards */}
