@@ -3,6 +3,7 @@ from fastapi.testclient import TestClient
 from main import app, response_cache, EMISSION_FACTORS
 
 client = TestClient(app)
+app.state.limiter.enabled = False
 
 
 def test_chat_assistant_reduce():
@@ -105,12 +106,52 @@ def test_input_validation_too_long():
 
 def test_workflow_rate_limiting():
     """Sustained bursts of requests should trigger a 429 rate limit response."""
-    hit_limit = False
-    for _ in range(25):
-        res = client.post("/api/assistant", json={"query": "safe"})
-        if res.status_code == 429:
-            hit_limit = True
-            break
-        assert res.status_code == 200
+    app.state.limiter.enabled = True
+    try:
+        hit_limit = False
+        for _ in range(25):
+            res = client.post("/api/assistant", json={"query": "safe"})
+            if res.status_code == 429:
+                hit_limit = True
+                break
+            assert res.status_code == 200
+        assert hit_limit, "Rate limit of 429 was never reached"
+    finally:
+        app.state.limiter.enabled = False
 
-    assert hit_limit, "Rate limit of 429 was never reached"
+
+from unittest.mock import AsyncMock, patch
+
+
+def test_chat_assistant_gemini_success():
+    """Verifies assistant returns response from Gemini when API succeeds."""
+    mock_response = AsyncMock()
+    mock_response.text = "This is a mock Gemini answer for eco questions."
+    
+    with patch("main.model.generate_content_async", return_value=mock_response) as mock_gen:
+        response = client.post("/api/assistant", json={"query": "how to reuse plastic?"})
+        assert response.status_code == 200
+        assert response.json()["response"] == "This is a mock Gemini answer for eco questions."
+        mock_gen.assert_called_once()
+
+
+def test_chat_assistant_gemini_failure_fallback():
+    """Verifies assistant falls back gracefully to local patterns when Gemini raises an exception."""
+    with patch("main.model.generate_content_async", side_effect=Exception("Gemini key error")) as mock_gen:
+        response = client.post("/api/assistant", json={"query": "diet recommendations"})
+        assert response.status_code == 200
+        assert "diet" in response.json()["response"].lower()
+        assert "beef" in response.json()["response"].lower()
+        mock_gen.assert_called_once()
+
+
+def test_carbon_calculator_negative_values():
+    """Negative values should be rejected by Pydantic validation."""
+    response = client.post("/api/calculate", json={"transport_car_km": -100})
+    assert response.status_code == 422
+
+
+def test_carbon_calculator_too_large_values():
+    """Excessively large values should be rejected by Pydantic validation."""
+    response = client.post("/api/calculate", json={"transport_car_km": 1000000})  # Limit is 100000
+    assert response.status_code == 422

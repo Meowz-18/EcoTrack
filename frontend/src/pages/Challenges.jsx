@@ -146,9 +146,9 @@ const Challenges = React.memo(() => {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-1.5 flex-wrap">
-                    <h4 className={`text-lg font-black tracking-tight transition-colors ${done ? 'text-slate-400 line-through' : 'text-slate-800 group-hover:text-emerald-800'}`}>
+                    <h3 className={`text-lg font-black tracking-tight transition-colors ${done ? 'text-slate-400 line-through' : 'text-slate-800 group-hover:text-emerald-800'}`}>
                       {challenge.title}
-                    </h4>
+                    </h3>
                     <span className={`category-badge text-[10px] font-black uppercase tracking-wider ${DIFFICULTY_COLORS[challenge.difficulty]} border`}>
                       {challenge.difficulty}
                     </span>

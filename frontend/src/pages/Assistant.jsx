@@ -8,9 +8,11 @@ import { motion } from 'framer-motion';
 import { MessageSquare, Send, Leaf, Bot, User, Sparkles } from 'lucide-react';
 import { useChat } from '../hooks/useChat';
 import { QUICK_QUESTIONS, MAX_QUERY_LENGTH } from '../constants';
+import { useCarbon } from '../hooks/useCarbon';
 
 const Assistant = React.memo(() => {
-  const { messages, inputValue, setInputValue, isTyping, messagesEndRef, handleSend } = useChat();
+  const { getBreakdown } = useCarbon();
+  const { messages, inputValue, setInputValue, isTyping, messagesEndRef, handleSend } = useChat(getBreakdown());
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {

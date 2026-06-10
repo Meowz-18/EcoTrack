@@ -3,6 +3,7 @@ import logging
 import hashlib
 from collections import OrderedDict
 from contextlib import asynccontextmanager
+from typing import Optional
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
@@ -113,9 +114,50 @@ app.add_middleware(
 )
 
 
+# Response Schemas for FastAPI best practices
+class AssistantResponse(BaseModel):
+    response: str
+
+
+class CarbonDataSchema(BaseModel):
+    transport: float = 0
+    energy: float = 0
+    food: float = 0
+    shopping: float = 0
+    total: float = 0
+
+
 class AssistantQuery(BaseModel):
     """Request body schema for the /api/assistant endpoint."""
     query: constr(min_length=1, max_length=500)
+    carbon_data: Optional[CarbonDataSchema] = None
+
+
+class ComparisonData(BaseModel):
+    global_avg_monthly: float
+    target_monthly: float
+    your_monthly: float
+
+
+class CalculationBreakdown(BaseModel):
+    transport: float
+    energy: float
+    food: float
+    shopping: float
+
+
+class CalculationResponse(BaseModel):
+    breakdown: CalculationBreakdown
+    total_kg_co2: float
+    total_tons_co2: float
+    comparison: ComparisonData
+
+
+class HealthResponse(BaseModel):
+    status: str
+    service: str
+    version: str
+    ai_model: str
 
 
 class CarbonCalculation(BaseModel):
@@ -187,7 +229,7 @@ def _build_fallback_response(user_query: str) -> str:
     )
 
 
-@app.post("/api/assistant")
+@app.post("/api/assistant", response_model=AssistantResponse)
 @limiter.limit("20/minute")
 async def chat_assistant(request: Request, body: AssistantQuery):
     """
@@ -201,12 +243,25 @@ async def chat_assistant(request: Request, body: AssistantQuery):
         return {"response": cached}
 
     try:
+        carbon_info = ""
+        if body.carbon_data and body.carbon_data.total > 0:
+            carbon_info = (
+                f" The user has tracked their monthly carbon footprint breakdown: "
+                f"Total: {body.carbon_data.total} kg CO2, "
+                f"Transport: {body.carbon_data.transport} kg, "
+                f"Energy: {body.carbon_data.energy} kg, "
+                f"Food: {body.carbon_data.food} kg, "
+                f"Shopping: {body.carbon_data.shopping} kg. "
+                "Tailor your response and suggest specific ways to reduce their highest categories."
+            )
+
         prompt = (
             "You are a helpful and knowledgeable Carbon Footprint Assistant for the 'EcoTrack' platform. "
             "Your goal is to help users understand, track, and reduce their carbon footprint through "
             "personalized insights and actionable advice. Focus on practical, science-backed suggestions. "
-            "Be encouraging and positive while being honest about environmental impact. "
-            f"Answer the following query accurately and concisely: {body.query}"
+            "Be encouraging and positive while being honest about environmental impact."
+            f"{carbon_info}"
+            f" Answer the following query accurately and concisely: {body.query}"
         )
         response = await model.generate_content_async(prompt)
         answer = response.text
@@ -221,7 +276,7 @@ async def chat_assistant(request: Request, body: AssistantQuery):
         return {"response": fallback}
 
 
-@app.post("/api/calculate")
+@app.post("/api/calculate", response_model=CalculationResponse)
 @limiter.limit("30/minute")
 async def calculate_carbon(request: Request, body: CarbonCalculation):
     """
@@ -268,7 +323,7 @@ async def calculate_carbon(request: Request, body: CarbonCalculation):
     }
 
 
-@app.get("/api/health")
+@app.get("/api/health", response_model=HealthResponse)
 async def health_check():
     """Returns service health status and version metadata."""
     return {

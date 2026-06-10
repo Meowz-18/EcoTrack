@@ -12,7 +12,7 @@ import { sanitizeInput, getTimestamp } from '../utils/helpers';
  * Custom hook for the EcoTrack AI Assistant chat functionality.
  * @returns {Object} Chat state and handler functions.
  */
-export const useChat = () => {
+export const useChat = (carbonData = null) => {
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -70,7 +70,16 @@ export const useChat = () => {
       const response = await fetch(API_ENDPOINTS.ASSISTANT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: sanitized }),
+        body: JSON.stringify({ 
+          query: sanitized,
+          carbon_data: carbonData && carbonData.total > 0 ? {
+            transport: carbonData.transport,
+            energy: carbonData.energy,
+            food: carbonData.food,
+            shopping: carbonData.shopping,
+            total: carbonData.total
+          } : null
+        }),
         signal: abortControllerRef.current.signal,
       });
 
@@ -104,7 +113,7 @@ export const useChat = () => {
         },
       ]);
     }
-  }, [inputValue]);
+  }, [inputValue, carbonData]);
 
   return {
     messages,
