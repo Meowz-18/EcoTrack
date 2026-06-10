@@ -62,63 +62,77 @@ const Dashboard = React.memo(() => {
   const relevantTips = CARBON_TIPS.filter(t => t.category === topCategory).slice(0, 2);
 
   return (
-    <article className="px-6 md:px-12 lg:px-20 py-12">
+    <article className="px-6 md:px-12 lg:px-20 pt-12 pb-24 relative z-10">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
+          className="mb-12"
         >
-          <div className="flex items-center gap-3 mb-2">
-            <Leaf size={28} className="text-brand-primary" aria-hidden="true" />
-            <h2 className="text-3xl font-black text-slate-900">Carbon Dashboard</h2>
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shadow-sm">
+              <Leaf size={20} className="text-emerald-750" aria-hidden="true" />
+            </div>
+            <h2 className="text-4xl font-black text-slate-900 tracking-tight">Carbon Dashboard</h2>
           </div>
-          <p className="text-slate-500 mb-10">Your personal carbon footprint overview and trends.</p>
+          <p className="text-slate-500 font-medium">Your personal carbon footprint overview, history, and tailored reduction recommendations.</p>
         </motion.div>
 
         {/* Top Stats Row */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-          <motion.div className="stat-card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-            <p className="text-sm text-slate-500 font-medium mb-1">Total Emissions</p>
-            <p className="text-3xl font-black text-slate-900">{formatCO2(breakdown.total)}</p>
-            <p className="text-xs text-slate-400 mt-1">CO₂ per period</p>
-          </motion.div>
-
-          <motion.div className="stat-card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-            <p className="text-sm text-slate-500 font-medium mb-1">Rating</p>
-            <p className={`inline-block px-3 py-1 rounded-full text-sm font-bold border ${ratingColors[rating]}`}>
-              {rating}
-            </p>
-            <p className="text-xs text-slate-400 mt-2">Based on monthly average</p>
-          </motion.div>
-
-          <motion.div className="stat-card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-            <p className="text-sm text-slate-500 font-medium mb-1">vs Global Average</p>
-            <div className="flex items-center gap-2">
-              {breakdown.total < 400 ? (
-                <TrendingDown size={20} className="text-emerald-500" aria-hidden="true" />
-              ) : (
-                <TrendingUp size={20} className="text-red-500" aria-hidden="true" />
-              )}
-              <p className="text-2xl font-black text-slate-900">
-                {breakdown.total > 0 ? `${Math.round((breakdown.total / 400) * 100)}%` : '—'}
-              </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <motion.div className="stat-card flex flex-col justify-between" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+            <div>
+              <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">Total Emissions</p>
+              <p className="text-4xl font-black text-emerald-900 tracking-tight">{formatCO2(breakdown.total)}</p>
             </div>
-            <p className="text-xs text-slate-400 mt-1">of 400 kg/month avg</p>
+            <p className="text-xs text-slate-400 font-medium mt-3">CO₂ equivalent per month</p>
           </motion.div>
 
-          <motion.div className="stat-card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
-            <p className="text-sm text-slate-500 font-medium mb-1">Entries Logged</p>
-            <p className="text-3xl font-black text-slate-900">{history.length}</p>
-            <p className="text-xs text-slate-400 mt-1">tracking sessions</p>
+          <motion.div className="stat-card flex flex-col justify-between" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
+            <div>
+              <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">Rating</p>
+              <span className={`inline-flex items-center justify-center px-4 py-1.5 rounded-full text-xs font-black border uppercase tracking-wider ${ratingColors[rating]}`}>
+                {rating}
+              </span>
+            </div>
+            <p className="text-xs text-slate-400 font-medium mt-3">Based on targets and averages</p>
+          </motion.div>
+
+          <motion.div className="stat-card flex flex-col justify-between" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+            <div>
+              <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">vs Global Average</p>
+              <div className="flex items-center gap-2">
+                {breakdown.total < 400 ? (
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 text-emerald-700">
+                    <TrendingDown size={18} aria-hidden="true" />
+                  </div>
+                ) : (
+                  <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center border border-red-500/20 text-red-700">
+                    <TrendingUp size={18} aria-hidden="true" />
+                  </div>
+                )}
+                <p className="text-3xl font-black text-slate-900 tracking-tight">
+                  {breakdown.total > 0 ? `${Math.round((breakdown.total / 400) * 100)}%` : '—'}
+                </p>
+              </div>
+            </div>
+            <p className="text-xs text-slate-400 font-medium mt-3">of 400 kg/month benchmark</p>
+          </motion.div>
+
+          <motion.div className="stat-card flex flex-col justify-between" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
+            <div>
+              <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">Entries Logged</p>
+              <p className="text-4xl font-black text-slate-900 tracking-tight">{history.length}</p>
+            </div>
           </motion.div>
         </div>
 
         {/* Charts Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           {/* Pie Chart - Category Breakdown */}
-          <motion.div className="premium-card p-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-            <h3 className="text-lg font-bold text-slate-900 mb-6">Emissions Breakdown</h3>
+          <motion.div className="premium-card p-8 md:p-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+            <h3 className="text-xl font-black text-slate-800 tracking-tight mb-6">Emissions Breakdown</h3>
             {pieData.length > 0 ? (
               <ResponsiveContainer width="100%" height={280}>
                 <PieChart>
@@ -126,7 +140,7 @@ const Dashboard = React.memo(() => {
                     data={pieData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={60}
+                    innerRadius={70}
                     outerRadius={100}
                     paddingAngle={4}
                     dataKey="value"
@@ -136,28 +150,28 @@ const Dashboard = React.memo(() => {
                     ))}
                   </Pie>
                   <Tooltip formatter={(value) => `${value} kg CO₂`} />
-                  <Legend />
+                  <Legend iconType="circle" wrapperStyle={{ paddingTop: 15 }} />
                 </PieChart>
               </ResponsiveContainer>
             ) : (
               <div className="flex flex-col items-center justify-center h-64 text-slate-400">
-                <Target size={40} className="mb-3" aria-hidden="true" />
-                <p className="font-medium">No data yet</p>
-                <p className="text-sm">Use the Calculator to log your first entry.</p>
+                <Target size={40} className="mb-3 text-slate-300" aria-hidden="true" />
+                <p className="font-bold">No data yet</p>
+                <p className="text-sm text-center max-w-xs mt-1">Use the calculator page to track your lifestyle emissions.</p>
               </div>
             )}
           </motion.div>
 
           {/* Bar Chart - Comparison */}
-          <motion.div className="premium-card p-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
-            <h3 className="text-lg font-bold text-slate-900 mb-6">How You Compare</h3>
+          <motion.div className="premium-card p-8 md:p-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
+            <h3 className="text-xl font-black text-slate-800 tracking-tight mb-6">How You Compare</h3>
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={comparisonData} layout="vertical" barCategoryGap="30%">
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis type="number" tick={{ fontSize: 12 }} />
-                <YAxis type="category" dataKey="name" width={80} tick={{ fontSize: 13, fontWeight: 600 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" horizontal={false} />
+                <XAxis type="number" tick={{ fontSize: 11, fontWeight: 500 }} />
+                <YAxis type="category" dataKey="name" width={90} tick={{ fontSize: 12, fontWeight: 700 }} />
                 <Tooltip formatter={(value) => `${value} kg CO₂`} />
-                <Bar dataKey="value" radius={[0, 8, 8, 0]} barSize={28}>
+                <Bar dataKey="value" radius={[0, 10, 10, 0]} barSize={26}>
                   {comparisonData.map((entry, i) => (
                     <Cell key={`bar-${i}`} fill={entry.fill} />
                   ))}
@@ -168,22 +182,23 @@ const Dashboard = React.memo(() => {
         </div>
 
         {/* Category Detail Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-          {Object.entries(CATEGORY_COLORS).map(([cat, color]) => {
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          {Object.entries(CATEGORY_COLORS).map(([cat, color], i) => {
             const Icon = CATEGORY_ICONS[cat];
             return (
               <motion.div
                 key={cat}
-                className="premium-card p-6 text-center"
+                className="premium-card p-6.5 text-center relative overflow-hidden group hover:scale-[1.03] transition-transform"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: 0.4 + i * 0.05 }}
               >
-                <div className="w-12 h-12 rounded-xl mx-auto mb-3 flex items-center justify-center" style={{ backgroundColor: color + '15' }}>
+                <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: color }} />
+                <div className="w-12 h-12 rounded-2xl mx-auto mb-4 flex items-center justify-center transition-transform group-hover:scale-110" style={{ backgroundColor: color + '15' }}>
                   <Icon size={22} style={{ color }} aria-hidden="true" />
                 </div>
-                <p className="text-xs text-slate-500 font-medium capitalize mb-1">{cat}</p>
-                <p className="text-xl font-black text-slate-900">{formatCO2(breakdown[cat])}</p>
+                <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1 capitalize">{cat}</p>
+                <p className="text-2xl font-black text-slate-900 tracking-tight">{formatCO2(breakdown[cat])}</p>
               </motion.div>
             );
           })}
@@ -192,24 +207,28 @@ const Dashboard = React.memo(() => {
         {/* Personalized Tips */}
         {relevantTips.length > 0 && (
           <motion.section
-            className="premium-card p-8"
+            className="premium-card p-8 md:p-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
             aria-labelledby="tips-heading"
           >
-            <div className="flex items-center gap-2 mb-6">
-              <Award size={22} className="text-brand-accent" aria-hidden="true" />
-              <h3 id="tips-heading" className="text-lg font-bold text-slate-900">Personalized Tips</h3>
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 shadow-sm">
+                <Award size={20} className="text-amber-700" aria-hidden="true" />
+              </div>
+              <h3 id="tips-heading" className="text-xl font-black text-slate-800 tracking-tight">Tailored Reduction Tips</h3>
             </div>
             <div className="space-y-4">
               {relevantTips.map((tip, i) => (
-                <div key={i} className="flex items-start gap-4 p-4 bg-emerald-50/50 rounded-xl border border-emerald-100">
-                  <Leaf size={18} className="text-brand-primary mt-0.5 shrink-0" aria-hidden="true" />
+                <div key={i} className="flex items-start gap-5 p-5 bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shrink-0 mt-0.5">
+                    <Leaf size={16} className="text-emerald-700" aria-hidden="true" />
+                  </div>
                   <div>
-                    <p className="text-slate-700 font-medium">{tip.tip}</p>
-                    <span className={`inline-block mt-2 text-xs font-bold px-2 py-0.5 rounded-full ${
-                      tip.impact === 'high' ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700'
+                    <p className="text-slate-700 font-bold text-base leading-relaxed">{tip.tip}</p>
+                    <span className={`inline-flex items-center mt-3 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full ${
+                      tip.impact === 'high' ? 'bg-emerald-100/80 text-emerald-800 border border-emerald-250/20' : 'bg-blue-150/80 text-blue-800 border border-blue-250/20'
                     }`}>
                       {tip.impact === 'high' ? 'High Impact' : 'Medium Impact'}
                     </span>

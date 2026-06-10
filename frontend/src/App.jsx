@@ -23,8 +23,15 @@ const MainLayout = () => {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-bg-base bg-mesh font-sans overflow-x-hidden m-0 p-0">
-      <a href="#main-content" className="skip-to-content">Skip to Main Content</a>
+    <div className="flex flex-col min-h-screen bg-[#f7fdf9] bg-mesh font-sans overflow-x-hidden m-0 p-0 relative">
+      {/* Dynamic ambient blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
+        <div className="absolute top-[-10%] left-[-15%] w-[60vw] h-[60vw] rounded-full bg-emerald-200/25 blur-[120px] animate-blob" />
+        <div className="absolute top-[25%] right-[-15%] w-[70vw] h-[70vw] rounded-full bg-teal-200/20 blur-[140px] animate-blob animation-delay-2000" />
+        <div className="absolute bottom-[-10%] left-[10%] w-[65vw] h-[65vw] rounded-full bg-lime-200/20 blur-[130px] animate-blob animation-delay-4000" />
+      </div>
+
+      <a href="#main-content" className="skip-to-content relative z-[101]">Skip to Main Content</a>
       
       {/* Top Navigation (Translucent Glass) */}
       <header className="fixed top-0 left-0 right-0 w-full h-20 bg-white/40 backdrop-blur-3xl border-b border-emerald-100/40 flex items-center justify-between px-8 md:px-12 z-[100] shadow-glass transition-all duration-500">
@@ -70,7 +77,7 @@ const MainLayout = () => {
       </header>
 
       {/* Main Content Area */}
-      <main id="main-content" className="flex-1 pt-20 focus:outline-none" tabIndex="-1">
+      <main id="main-content" className="flex-1 pt-20 focus:outline-none relative z-10" tabIndex="-1">
         <ErrorBoundary>
           <Suspense fallback={
             <div className="flex h-full items-center justify-center p-20">

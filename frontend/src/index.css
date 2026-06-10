@@ -50,19 +50,19 @@ html, body, #root {
 
 @layer components {
   .premium-card {
-    @apply bg-white/70 backdrop-blur-md border border-emerald-200/60 shadow-premium rounded-[2rem] transition-all duration-500;
+    @apply bg-white/45 backdrop-blur-xl border border-white/50 shadow-glass rounded-[2rem] transition-all duration-500;
   }
   .premium-card:hover {
-    @apply border-brand-primary/20 shadow-2xl shadow-brand-primary/5 -translate-y-1;
+    @apply border-emerald-300/40 shadow-2xl shadow-emerald-500/10 -translate-y-1.5;
   }
   
   .glass-effect {
-    @apply bg-white/40 backdrop-blur-3xl border border-white/60 shadow-glass;
+    @apply bg-white/35 backdrop-blur-2xl border border-white/40 shadow-glass;
   }
 
   .bento-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem;
   }
 
@@ -70,24 +70,24 @@ html, body, #root {
     outline: none;
   }
   .focus-ring:focus-visible {
-    @apply ring-2 ring-brand-primary ring-offset-2 ring-offset-white;
+    @apply ring-2 ring-emerald-500 ring-offset-2 ring-offset-emerald-50;
   }
   
   .btn-primary {
-    @apply px-8 py-4 bg-brand-primary text-white rounded-2xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-primary/20 border border-white/10;
+    @apply px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-2xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 border border-white/10;
   }
   .btn-primary:hover {
-    @apply bg-emerald-800 shadow-xl shadow-brand-primary/30 -translate-y-0.5;
+    @apply from-emerald-700 to-teal-700 shadow-xl shadow-emerald-600/30 -translate-y-0.5;
   }
   .btn-primary:active {
     @apply scale-95;
   }
 
   .btn-secondary {
-    @apply px-8 py-4 bg-white/60 backdrop-blur-md text-brand-primary border border-emerald-200 rounded-2xl font-bold transition-all flex items-center justify-center gap-2 shadow-sm;
+    @apply px-8 py-4 bg-white/40 backdrop-blur-md text-emerald-800 border border-white/50 rounded-2xl font-bold transition-all flex items-center justify-center gap-2 shadow-sm;
   }
   .btn-secondary:hover {
-    @apply bg-white shadow-md -translate-y-0.5 border-brand-primary/20 text-emerald-800;
+    @apply bg-white/60 shadow-md -translate-y-0.5 border-emerald-200/60 text-emerald-900;
   }
   .btn-secondary:active {
     @apply scale-95;
@@ -101,10 +101,10 @@ html, body, #root {
   }
 
   .stat-card {
-    @apply bg-white/60 backdrop-blur-md border border-emerald-100 rounded-2xl p-6 transition-all duration-300;
+    @apply bg-white/40 backdrop-blur-xl border border-white/40 rounded-3xl p-6 transition-all duration-300;
   }
   .stat-card:hover {
-    @apply shadow-lg shadow-emerald-500/10 -translate-y-0.5 border-emerald-200;
+    @apply shadow-xl shadow-emerald-500/10 -translate-y-1 border-emerald-200/50;
   }
 }
 
@@ -193,4 +193,24 @@ html, body, #root {
 }
 .eco-loader svg {
   @apply animate-ping opacity-75 text-brand-primary;
+}
+
+/* Moving Backdrop Blobs for Mesh Gradients */
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(50px, -80px) scale(1.2); }
+  66% { transform: translate(-40px, 40px) scale(0.8); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+.animate-blob {
+  animation: blob 25s infinite ease-in-out;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
 }
