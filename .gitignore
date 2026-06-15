@@ -19,10 +19,18 @@ Thumbs.db
 # Logs
 *.log
 
-# IDE
+# IDE & Agent Config
 .gemini/
 .vscode/
 .idea/
+.cursor/
+.agents/
+.jetro/
+.mcp.json
+.windsurfrules
+AGENT.md
+CLAUDE.md
+.github/copilot-instructions.md
 
 # Cache
 __pycache__/
