@@ -6,13 +6,9 @@
 import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, CheckCircle2, Circle, Flame, Star, Leaf, Filter } from 'lucide-react';
-import { ECO_CHALLENGES } from '../constants';
+import { ECO_CHALLENGES, DIFFICULTY_COLORS } from '../constants';
 
-const DIFFICULTY_COLORS = {
-  Easy: 'bg-emerald-100 text-emerald-700 border-emerald-200',
-  Medium: 'bg-amber-100 text-amber-700 border-amber-200',
-  Hard: 'bg-red-100 text-red-700 border-red-200',
-};
+
 
 const Challenges = React.memo(() => {
   const [completed, setCompleted] = useState(() => {
@@ -30,8 +26,8 @@ const Challenges = React.memo(() => {
       const next = prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id];
       try { 
         localStorage.setItem('ecotrack_challenges', JSON.stringify(next)); 
-      } catch (e) {
-        console.warn('Could not save challenge completion state:', e);
+      } catch {
+        // Silent fail — localStorage may be full or unavailable
       }
       return next;
     });

@@ -8,62 +8,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Car, Zap, Utensils, ShoppingBag, ChevronRight, ChevronLeft, Check, RotateCcw, BarChart3, Save } from 'lucide-react';
 import { useCarbon } from '../hooks/useCarbon';
-import { CARBON_CATEGORIES } from '../constants';
+import { CARBON_CATEGORIES, CALCULATOR_PRESETS } from '../constants';
 import { formatCO2 } from '../utils/helpers';
 
 const iconMap = { Car, Zap, Utensils, ShoppingBag };
 
-const PRESETS = {
-  transport_car_km: [
-    { label: 'Low (50 km)', value: 50 },
-    { label: 'Avg (150 km)', value: 150 },
-    { label: 'High (400 km)', value: 400 }
-  ],
-  transport_bus_km: [
-    { label: 'Low (10 km)', value: 10 },
-    { label: 'Avg (50 km)', value: 50 }
-  ],
-  transport_train_km: [
-    { label: 'Low (20 km)', value: 20 },
-    { label: 'Avg (200 km)', value: 200 }
-  ],
-  transport_flight_km: [
-    { label: 'Short (500 km)', value: 500 },
-    { label: 'Long (5000 km)', value: 5000 }
-  ],
-  energy_electricity_kwh: [
-    { label: 'Flat (150 kWh)', value: 150 },
-    { label: 'House (450 kWh)', value: 450 }
-  ],
-  energy_gas_kwh: [
-    { label: 'Flat (80 kWh)', value: 80 },
-    { label: 'House (300 kWh)', value: 300 }
-  ],
-  food_beef_kg: [
-    { label: 'Low (0.5 kg)', value: 0.5 },
-    { label: 'Avg (2 kg)', value: 2 }
-  ],
-  food_chicken_kg: [
-    { label: 'Low (0.5 kg)', value: 0.5 },
-    { label: 'Avg (2 kg)', value: 2 }
-  ],
-  food_vegetables_kg: [
-    { label: 'Low (1 kg)', value: 1 },
-    { label: 'Avg (4 kg)', value: 4 }
-  ],
-  food_dairy_kg: [
-    { label: 'Low (0.5 kg)', value: 0.5 },
-    { label: 'Avg (2 kg)', value: 2 }
-  ],
-  shopping_clothing: [
-    { label: 'Rare (1 item)', value: 1 },
-    { label: 'Avg (4 items)', value: 4 }
-  ],
-  shopping_electronics: [
-    { label: 'Rare (1 item)', value: 1 },
-    { label: 'Avg (3 items)', value: 3 }
-  ]
-};
+
 
 const CalculatorPage = React.memo(() => {
   const [step, setStep] = useState(0);
@@ -168,9 +118,9 @@ const CalculatorPage = React.memo(() => {
                           aria-describedby={`${field.key}-factor`}
                         />
                       </div>
-                      {PRESETS[field.key] && (
+                      {CALCULATOR_PRESETS[field.key] && (
                         <div className="flex flex-wrap gap-1.5 mt-3 mb-1" role="group" aria-label={`Quick values for ${field.key}`}>
-                          {PRESETS[field.key].map((preset) => (
+                          {CALCULATOR_PRESETS[field.key].map((preset) => (
                             <button
                               key={preset.label}
                               type="button"

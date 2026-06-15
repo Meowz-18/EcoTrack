@@ -79,9 +79,9 @@ const MainLayout = () => {
       <main id="main-content" className="flex-1 pt-20 focus:outline-none relative z-10" tabIndex="-1">
         <ErrorBoundary>
           <Suspense fallback={
-            <div className="flex h-full items-center justify-center p-20">
+            <div className="flex h-full items-center justify-center p-20" role="status" aria-label="Page loading">
               <div className="eco-loader">
-                <Leaf size={20} />
+                <Leaf size={20} aria-hidden="true" />
               </div>
             </div>
           }>

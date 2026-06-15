@@ -2,6 +2,11 @@
  * @file Application-wide constants and configuration.
  * Centralizes all static data, API endpoints, and configuration values
  * to ensure maintainability and single-source-of-truth across the codebase.
+ *
+ * Emission factors are sourced from:
+ * - IPCC AR6 WG3 (2023) — Transport & energy emission intensities
+ * - US EPA GHG Equivalencies Calculator — Food & consumer goods factors
+ * @see https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator
  */
 
 /** @constant {string} API base URL for the EcoTrack backend */
@@ -179,3 +184,84 @@ export const CARBON_TIPS = Object.freeze([
   { category: 'shopping', tip: 'Buying second-hand clothing reduces your fashion carbon footprint by up to 82%.', impact: 'high' },
   { category: 'shopping', tip: 'Repairing electronics instead of replacing them saves about 50 kg CO2 per device.', impact: 'medium' },
 ]);
+
+// ---------------------------------------------------------------------------
+// Extracted from page components for single-source-of-truth
+// ---------------------------------------------------------------------------
+
+/** @constant {Object} Category color mappings for Dashboard charts */
+export const CATEGORY_COLORS = Object.freeze({
+  transport: '#3b82f6',
+  energy: '#f59e0b',
+  food: '#10b981',
+  shopping: '#8b5cf6',
+});
+
+/** @constant {Object} Difficulty badge color classes for Challenges page */
+export const DIFFICULTY_COLORS = Object.freeze({
+  Easy: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+  Medium: 'bg-amber-100 text-amber-700 border-amber-200',
+  Hard: 'bg-red-100 text-red-700 border-red-200',
+});
+
+/** @constant {Object} Tailwind color class mappings for Landing feature cards */
+export const FEATURE_COLOR_CLASSES = Object.freeze({
+  emerald: 'bg-emerald-50 text-emerald-600 border-emerald-200',
+  blue: 'bg-blue-50 text-blue-600 border-blue-200',
+  amber: 'bg-amber-50 text-amber-600 border-amber-200',
+  purple: 'bg-purple-50 text-purple-600 border-purple-200',
+  teal: 'bg-teal-50 text-teal-600 border-teal-200',
+});
+
+/** @constant {Object} Quick-fill preset values for the Carbon Calculator */
+export const CALCULATOR_PRESETS = Object.freeze({
+  transport_car_km: [
+    { label: 'Low (50 km)', value: 50 },
+    { label: 'Avg (150 km)', value: 150 },
+    { label: 'High (400 km)', value: 400 },
+  ],
+  transport_bus_km: [
+    { label: 'Low (10 km)', value: 10 },
+    { label: 'Avg (50 km)', value: 50 },
+  ],
+  transport_train_km: [
+    { label: 'Low (20 km)', value: 20 },
+    { label: 'Avg (200 km)', value: 200 },
+  ],
+  transport_flight_km: [
+    { label: 'Short (500 km)', value: 500 },
+    { label: 'Long (5000 km)', value: 5000 },
+  ],
+  energy_electricity_kwh: [
+    { label: 'Flat (150 kWh)', value: 150 },
+    { label: 'House (450 kWh)', value: 450 },
+  ],
+  energy_gas_kwh: [
+    { label: 'Flat (80 kWh)', value: 80 },
+    { label: 'House (300 kWh)', value: 300 },
+  ],
+  food_beef_kg: [
+    { label: 'Low (0.5 kg)', value: 0.5 },
+    { label: 'Avg (2 kg)', value: 2 },
+  ],
+  food_chicken_kg: [
+    { label: 'Low (0.5 kg)', value: 0.5 },
+    { label: 'Avg (2 kg)', value: 2 },
+  ],
+  food_vegetables_kg: [
+    { label: 'Low (1 kg)', value: 1 },
+    { label: 'Avg (4 kg)', value: 4 },
+  ],
+  food_dairy_kg: [
+    { label: 'Low (0.5 kg)', value: 0.5 },
+    { label: 'Avg (2 kg)', value: 2 },
+  ],
+  shopping_clothing: [
+    { label: 'Rare (1 item)', value: 1 },
+    { label: 'Avg (4 items)', value: 4 },
+  ],
+  shopping_electronics: [
+    { label: 'Rare (1 item)', value: 1 },
+    { label: 'Avg (3 items)', value: 3 },
+  ],
+});

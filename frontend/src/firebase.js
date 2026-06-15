@@ -6,6 +6,12 @@ import { getFirestore } from "firebase/firestore";
 /**
  * Firebase configuration for the EcoTrack platform.
  * Initializes Analytics, Authentication, and Firestore services.
+ *
+ * @security These API keys are client-side Firebase keys, which are
+ * public by design (they identify the project, not authenticate it).
+ * Access control is enforced by Firebase Security Rules on the backend,
+ * not by key secrecy. Env-var overrides are provided for CI/CD flexibility.
+ * @see https://firebase.google.com/docs/projects/api-keys
  */
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDiDQmXHgvacPLzXkDn2UU3PmOijGCO980",

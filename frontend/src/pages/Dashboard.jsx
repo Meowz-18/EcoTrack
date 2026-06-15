@@ -9,14 +9,8 @@ import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, LineChart, Lin
 import { TrendingDown, TrendingUp, Leaf, Car, Zap, Utensils, ShoppingBag, Target, Award } from 'lucide-react';
 import { useCarbon } from '../hooks/useCarbon';
 import { formatCO2, getCarbonRating } from '../utils/helpers';
-import { CARBON_TIPS } from '../constants';
+import { CARBON_TIPS, CATEGORY_COLORS } from '../constants';
 
-const CATEGORY_COLORS = {
-  transport: '#3b82f6',
-  energy: '#f59e0b',
-  food: '#10b981',
-  shopping: '#8b5cf6',
-};
 
 const CATEGORY_ICONS = {
   transport: Car,

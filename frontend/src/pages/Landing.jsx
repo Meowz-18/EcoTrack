@@ -7,6 +7,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Leaf, BarChart3, Calculator, Trophy, Calendar, MessageSquare, ArrowRight, TrendingDown, Users, Globe } from 'lucide-react';
+import { FEATURE_COLOR_CLASSES } from '../constants';
 
 const features = [
   { icon: BarChart3, title: 'Carbon Dashboard', desc: 'Visualize your emissions with interactive charts and trends.', path: '/dashboard', color: 'emerald' },
@@ -22,13 +23,7 @@ const stats = [
   { icon: Globe, value: '200+', label: 'Trees Equivalent', suffix: 'to offset you' },
 ];
 
-const colorClasses = {
-  emerald: 'bg-emerald-50 text-emerald-600 border-emerald-200',
-  blue: 'bg-blue-50 text-blue-600 border-blue-200',
-  amber: 'bg-amber-50 text-amber-600 border-amber-200',
-  purple: 'bg-purple-50 text-purple-600 border-purple-200',
-  teal: 'bg-teal-50 text-teal-600 border-teal-200',
-};
+
 
 const Landing = React.memo(() => {
   return (
@@ -139,7 +134,7 @@ const Landing = React.memo(() => {
               >
                 <Link to={feature.path} className="block premium-card p-8.5 h-full group relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-emerald-500/5 to-transparent rounded-bl-full pointer-events-none" />
-                  <div className={`w-14 h-14 rounded-2xl ${colorClasses[feature.color]} border flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
+                  <div className={`w-14 h-14 rounded-2xl ${FEATURE_COLOR_CLASSES[feature.color]} border flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
                     <feature.icon size={24} aria-hidden="true" />
                   </div>
                   <h4 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-emerald-800 transition-colors">{feature.title}</h4>
